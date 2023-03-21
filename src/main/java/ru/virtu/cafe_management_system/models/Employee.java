@@ -1,11 +1,30 @@
 package ru.virtu.cafe_management_system.models;
 
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name="Employee")
 public class Employee {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "Fio shouldn't be empty")
+    @Size(min = 2, max = 100, message = "Fio should be from 2 to 100 symbols")
+    @Column(name = "fio")
     private String fio;
+
+    @NotEmpty(message = "Fio shouldn't be empty")
+    @Column(name = "phone")
     private String phone;
-    private JobTitle jobTitle;
+
+    @Column(name = "job_title")
+    private String jobTitle;
 
     public Long getId() {
         return id;
@@ -31,11 +50,11 @@ public class Employee {
         this.phone = phone;
     }
 
-    public JobTitle getJobTitle() {
+    public String getJobTitle() {
         return jobTitle;
     }
 
-    public void setJobTitle(JobTitle jobTitle) {
+    public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
 }

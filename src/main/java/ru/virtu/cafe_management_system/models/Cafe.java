@@ -1,8 +1,8 @@
 package ru.virtu.cafe_management_system.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -29,18 +29,18 @@ public class Cafe {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User owner;
+    private Person owner;
 
-    private List<Employee> employees;
-    private List<Dish> dishes;
-    private List<Order> orders;
-    private List<Reservation> tableOrders;
+//    private List<Employee> employees;
+//    private List<Dish> dishes;
+//    private List<Order> orders;
+//    private List<Reservation> tableOrders;
 
     public Cafe(){
 
     }
 
-    public Cafe(String name, String address, Integer places, User owner) {
+    public Cafe(String name, String address, Integer places, Person owner) {
         this.name = name;
         this.address = address;
         this.places = places;
@@ -79,43 +79,43 @@ public class Cafe {
         this.places = places;
     }
 
-    public User getOwner() {
+    public Person getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Person owner) {
         this.owner = owner;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
-
-    public List<Dish> getDishes() {
-        return dishes;
-    }
-
-    public void setDishes(List<Dish> dishes) {
-        this.dishes = dishes;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Reservation> getTableOrders() {
-        return tableOrders;
-    }
-
-    public void setTableOrders(List<Reservation> tableOrders) {
-        this.tableOrders = tableOrders;
-    }
+//    public List<Employee> getEmployees() {
+//        return employees;
+//    }
+//
+//    public void setEmployees(List<Employee> employees) {
+//        this.employees = employees;
+//    }
+//
+//    public List<Dish> getDishes() {
+//        return dishes;
+//    }
+//
+//    public void setDishes(List<Dish> dishes) {
+//        this.dishes = dishes;
+//    }
+//
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
+//
+//    public List<Reservation> getTableOrders() {
+//        return tableOrders;
+//    }
+//
+//    public void setTableOrders(List<Reservation> tableOrders) {
+//        this.tableOrders = tableOrders;
+//    }
 }

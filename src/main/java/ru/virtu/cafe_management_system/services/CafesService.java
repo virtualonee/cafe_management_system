@@ -53,16 +53,16 @@ public class CafesService {
         return cafesRepository.findByName(name);
     }
 
-    public List<Employee> getEmployeeByCafeId(Long id) {
-        Optional<Cafe> cafe = cafesRepository.findById(id);
-
-        if (cafe.isPresent()) {
-            Hibernate.initialize(cafe.get().getEmployees());
-
-            return cafe.get().getEmployees();
-        }
-        else {
-            return Collections.emptyList();
-        }
-    }
+//    public List<Employee> getEmployeeByCafeId(Long id) {
+//        Optional<Cafe> cafe = cafesRepository.findById(id);
+//
+//        if (cafe.isPresent()) {
+//            Hibernate.initialize(cafe.get().getEmployees());
+//
+//            return cafe.get().getEmployees();
+//        }
+//        else {
+//            return Collections.emptyList();
+//        }
+//    }
 }

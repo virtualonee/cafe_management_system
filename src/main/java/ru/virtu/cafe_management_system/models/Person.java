@@ -1,71 +1,93 @@
 package ru.virtu.cafe_management_system.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.List;
 
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Person")
 public class Person {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min = 2, max = 100, message = "Имя должно быть от 2 до 100 символов длиной")
-    @Column(name = "full_name")
-    private String fullName;
+    @NotEmpty(message = "Username shouldn't be empty")
+    @Size(min = 2, max = 100, message = "Username should be from 2 to 100 symbols")
+    @Column(name = "username")
+    private String username;
 
-    @Min(value = 1900, message = "Год рождения должен быть больше, чем 1900")
-    @Column(name = "year_of_birth")
-    private int yearOfBirth;
+    @NotEmpty(message = "Password shouldn't be empty")
+    @Size(min = 2, max = 100, message = "Password should be from 2 to 100 symbols")
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(mappedBy = "owner")
-    private List<Book> books;
+    List<Cafe> cafes;
 
-    // Конструктор по умолчанию нужен для Spring
-    public Person() {
+    public Person(){
 
     }
 
-    public Person(String fullName, int yearOfBirth) {
-        this.fullName = fullName;
-        this.yearOfBirth = yearOfBirth;
+    public Person(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public int getYearOfBirth() {
-        return yearOfBirth;
+    public String getPassword() {
+        return password;
     }
 
-    public void setYearOfBirth(int yearOfBirth) {
-        this.yearOfBirth = yearOfBirth;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public List<Cafe> getCafes() {
+        return cafes;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setCafes(List<Cafe> cafes) {
+        this.cafes = cafes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(username, person.username) && Objects.equals(password, person.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

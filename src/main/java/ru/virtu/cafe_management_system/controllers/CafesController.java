@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.virtu.cafe_management_system.models.Cafe;
 import ru.virtu.cafe_management_system.services.CafesService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import ru.virtu.cafe_management_system.util.CafeValidator;
 
 
@@ -27,19 +27,20 @@ public class CafesController {
 
     @GetMapping()
     public String index(Model model) {
+
         model.addAttribute("cafes", cafesService.findAll());
         return "cafes/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("cafes", cafesService.findOne(id));
+        model.addAttribute("cafe", cafesService.findOne(id));
 
         return "cafes/show";
     }
 
     @GetMapping("/new")
-    public String newCafe(@ModelAttribute("cafes") Cafe cafe) {
+    public String newCafe(@ModelAttribute("cafe") Cafe cafe) {
         return "cafes/new";
     }
 
