@@ -6,15 +6,16 @@
 </head>
 <body>
 
-<div th:each="cafe : ${cafes}">
-    <a th:href="@{/cafes/{id}(id=${cafe.getId()})}"
-       th:text="${cafe.getName() + ', ' + cafe.getAddress()}">cafe</a>
+<div th:each="employee : ${employees}">
+    <a th:href="@{/employees/{id}(id=${employee.getId()})}"
+       th:text="${employee.getFio() + ', ' + employee.getJobTitle()+ ', ' + employee.getPhone()}">employee</a>
 </div>
 
 <br/>
 <hr/>
 
-<a href="/cafes/new">Add cafe</a>
+<a href="/employees/new">Add employee</a>
+<a href="/cafes">To cafe</a>
 
 </body>
 </html>

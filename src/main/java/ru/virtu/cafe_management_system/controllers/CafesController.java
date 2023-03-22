@@ -1,11 +1,14 @@
 package ru.virtu.cafe_management_system.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.virtu.cafe_management_system.models.Cafe;
+import ru.virtu.cafe_management_system.security.PersonDetails;
 import ru.virtu.cafe_management_system.services.CafesService;
 
 import javax.validation.Valid;
@@ -28,15 +31,27 @@ public class CafesController {
     @GetMapping()
     public String index(Model model) {
 
-        model.addAttribute("cafes", cafesService.findAll());
+        PersonDetails personDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("cafes", cafesService.findByPersonId(personDetails.getPerson().getId()));
+
         return "cafes/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("cafe", cafesService.findOne(id));
 
-        return "cafes/show";
+        Cafe cafe = cafesService.findOne(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        if (cafe.getOwner().equals(personDetails.getPerson())){
+            model.addAttribute("cafe", cafe);
+            return "cafes/show";
+        }
+        else {
+            return "error/no_access";
+        }
     }
 
     @GetMapping("/new")
@@ -52,29 +67,59 @@ public class CafesController {
         if (bindingResult.hasErrors())
             return "cafes/new";
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        cafe.setOwner(personDetails.getPerson());
+
         cafesService.save(cafe);
         return "redirect:/cafes";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("cafe", cafesService.findOne(id));
-        return "cafes/edit";
+        Cafe cafe = cafesService.findOne(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        if (cafe.getOwner().equals(personDetails.getPerson())){
+            model.addAttribute("cafe", cafe);
+            return "cafes/edit";
+        }
+        else {
+            return "error/no_access";
+        }
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("cafe") @Valid Cafe person, BindingResult bindingResult,
+    public String update(@ModelAttribute("cafe") @Valid Cafe cafe, BindingResult bindingResult,
                          @PathVariable("id") Long id) {
         if (bindingResult.hasErrors())
             return "cafes/edit";
 
-        cafesService.update(id, person);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        cafe.setOwner(personDetails.getPerson());
+
+        cafesService.update(id, cafe);
         return "redirect:/cafes";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
-        cafesService.delete(id);
-        return "redirect:/cafes";
+        Cafe cafe = cafesService.findOne(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        if (cafe.getOwner().equals(personDetails.getPerson())){
+            cafesService.delete(id);
+            return "redirect:/cafes";
+        }
+        else {
+            return "error/no_access";
+        }
     }
 }

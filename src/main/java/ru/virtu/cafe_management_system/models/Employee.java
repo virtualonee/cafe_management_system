@@ -4,6 +4,7 @@ package ru.virtu.cafe_management_system.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Table(name="Employee")
@@ -25,6 +26,10 @@ public class Employee {
 
     @Column(name = "job_title")
     private String jobTitle;
+
+    @ManyToOne
+    @JoinColumn(name = "cafe_id", referencedColumnName = "id")
+    private Cafe cafe;
 
     public Long getId() {
         return id;
@@ -56,5 +61,26 @@ public class Employee {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    public Cafe getCafe() {
+        return cafe;
+    }
+
+    public void setCafe(Cafe cafe) {
+        this.cafe = cafe;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(fio, employee.fio) && Objects.equals(phone, employee.phone) && Objects.equals(jobTitle, employee.jobTitle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fio, phone, jobTitle);
     }
 }

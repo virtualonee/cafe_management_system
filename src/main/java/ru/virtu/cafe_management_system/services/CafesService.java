@@ -4,6 +4,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.virtu.cafe_management_system.dao.CafeDAO;
 import ru.virtu.cafe_management_system.models.Cafe;
 import ru.virtu.cafe_management_system.models.Employee;
 import ru.virtu.cafe_management_system.repositories.CafesRepository;
@@ -18,14 +19,20 @@ import java.util.Optional;
 public class CafesService {
 
     private final CafesRepository cafesRepository;
+    private final CafeDAO cafeDAO;
 
     @Autowired
-    public CafesService(CafesRepository cafesRepository) {
+    public CafesService(CafesRepository cafesRepository, CafeDAO cafeDAO) {
         this.cafesRepository = cafesRepository;
+        this.cafeDAO = cafeDAO;
     }
 
     public List<Cafe> findAll() {
         return cafesRepository.findAll();
+    }
+
+    public List<Cafe> findByPersonId(Long personId) {
+        return cafeDAO.showByPersonId(personId);
     }
 
     public Cafe findOne(Long id) {

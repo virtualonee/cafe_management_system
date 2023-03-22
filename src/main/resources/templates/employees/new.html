@@ -7,18 +7,18 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/cafes}" th:object="${cafe}">
+<form th:method="POST" th:action="@{/employees}" th:object="${employee}">
 
-    <label for="name">Input name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <label for="fio">Input fio: </label>
+    <input type="text" th:field="*{fio}" id="fio"/>
     <br/>
 
-    <label for="address">Input address: </label>
-    <input type="text" th:field="*{address}" id="address"/>
+    <label for="phone">Input phone: </label>
+    <input type="text" th:field="*{phone}" id="phone"/>
     <br/>
 
-    <label for="places">Input places: </label>
-    <input type="text" th:field="*{places}" id="places"/>
+    <label for="jobTitle">Input job: </label>
+    <input type="text" th:field="*{jobTitle}" id="jobTitle"/>
     <br/>
 
     <input type="submit" value="Create!"/>

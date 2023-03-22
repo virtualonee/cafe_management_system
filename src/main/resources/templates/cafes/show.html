@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Show</title>
+    <title>Show cafe</title>
 </head>
 <body>
 <p th:text="${cafe.getName() + ', ' + cafe.getAddress() + ', ' + cafe.getPlaces()}">VALUE</p>
+<br>
 
-<a th:href="../employees/"
 
 <!--<div th:if="${books.isEmpty()}">-->
 <!--    <p>Человек пока не взял ни одной книги</p>-->
@@ -39,6 +39,10 @@
 <form th:method="DELETE" th:action="@{/cafes/{id}(id=${cafe.getId()})}">
     <input type="submit" value="Удалить"/>
 </form>
+
+<hr>
+
+<a th:href="@{/employees(cafeId=${cafe.getId()})}";>Manage employees</a>
 
 </body>
 </html>

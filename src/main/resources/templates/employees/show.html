@@ -3,40 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Show</title>
+    <title>Show employee</title>
 </head>
 <body>
-<p th:text="${cafe.getName() + ', ' + cafe.getAddress() + ', ' + cafe.getPlaces()}">VALUE</p>
+<p th:text="${employee.getFio() + ', ' + employee.getJobTitle() + ', ' + employee.getPhone()}">VALUE</p>
 
-<a href="../"
-
-<!--<div th:if="${books.isEmpty()}">-->
-<!--    <p>Человек пока не взял ни одной книги</p>-->
-<!--    <hr/>-->
-<!--</div>-->
-
-<!--<div th:if="${!books.isEmpty()}">-->
-<!--    <hr/>-->
-<!--    <b>Книги:</b>-->
-<!--    <br/>-->
-<!--    <table th:each="book : ${books}">-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"-->
-<!--                   th:style="${book.isExpired()} ? 'color: red' : 'color: black'">-->
-<!--                    book-->
-<!--                </span>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--    <hr/>-->
-<!--</div>-->
-
-<form th:method="GET" th:action="@{/cafes/{id}/edit(id=${cafe.getId()})}">
+<form th:method="GET" th:action="@{/employees/{id}/edit(id=${employee.getId()})}">
     <input type="submit" value="Редактировать"/>
 </form>
 
-<form th:method="DELETE" th:action="@{/cafes/{id}(id=${cafe.getId()})}">
+<form th:method="DELETE" th:action="@{/employees/{id}(id=${employee.getId()})}">
     <input type="submit" value="Удалить"/>
 </form>
 

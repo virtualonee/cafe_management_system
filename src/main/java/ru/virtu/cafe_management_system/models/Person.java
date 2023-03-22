@@ -26,6 +26,9 @@ public class Person {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "Role")
+    private String role;
+
     @OneToMany(mappedBy = "owner")
     List<Cafe> cafes;
 
@@ -62,6 +65,14 @@ public class Person {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public List<Cafe> getCafes() {
         return cafes;
     }
@@ -86,8 +97,11 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", cafes=" + cafes +
                 '}';
     }
 }

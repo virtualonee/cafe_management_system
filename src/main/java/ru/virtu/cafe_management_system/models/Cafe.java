@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="Cafe")
@@ -28,10 +29,12 @@ public class Cafe {
     private Integer places;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
-//    private List<Employee> employees;
+    @OneToMany(mappedBy = "cafe")
+    private List<Employee> employees;
+
 //    private List<Dish> dishes;
 //    private List<Order> orders;
 //    private List<Reservation> tableOrders;
@@ -87,14 +90,14 @@ public class Cafe {
         this.owner = owner;
     }
 
-//    public List<Employee> getEmployees() {
-//        return employees;
-//    }
-//
-//    public void setEmployees(List<Employee> employees) {
-//        this.employees = employees;
-//    }
-//
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
 //    public List<Dish> getDishes() {
 //        return dishes;
 //    }
@@ -118,4 +121,18 @@ public class Cafe {
 //    public void setTableOrders(List<Reservation> tableOrders) {
 //        this.tableOrders = tableOrders;
 //    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cafe cafe = (Cafe) o;
+        return Objects.equals(name, cafe.name) && Objects.equals(address, cafe.address) && Objects.equals(places, cafe.places);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, address, places);
+    }
 }

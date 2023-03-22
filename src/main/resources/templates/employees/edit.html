@@ -2,22 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Редактировать человека</title>
+    <title>Редактировать сотрудника</title>
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/cafes/{id}(id=${cafe.getId()})}" th:object="${cafe}">
+<form th:method="PATCH" th:action="@{/employees/{id}(id=${employee.getId()})}" th:object="${employee}">
 
-    <label for="name">Input name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <label for="fio">Input fio: </label>
+    <input type="text" th:field="*{fio}" id="fio"/>
     <br/>
 
-    <label for="address">Input address: </label>
-    <input type="text" th:field="*{address}" id="address"/>
+    <label for="phone">Input phone: </label>
+    <input type="text" th:field="*{phone}" id="phone"/>
     <br/>
 
-    <label for="places">Input places: </label>
-    <input type="text" th:field="*{places}" id="places"/>
+    <label for="jobTitle">Input job: </label>
+    <input type="text" th:field="*{jobTitle}" id="jobTitle"/>
     <br/>
 
     <input type="submit" value="Редактировать!"/>
