@@ -25,9 +25,6 @@ public class Cafe {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "places")
-    private Integer places;
-
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
@@ -35,7 +32,12 @@ public class Cafe {
     @OneToMany(mappedBy = "cafe")
     private List<Employee> employees;
 
-//    private List<Dish> dishes;
+    @OneToMany(mappedBy = "cafe")
+    private List<Shift> shifts;
+
+    @OneToMany(mappedBy = "cafe")
+    private List<Dish> dishes;
+
 //    private List<Order> orders;
 //    private List<Reservation> tableOrders;
 
@@ -43,10 +45,9 @@ public class Cafe {
 
     }
 
-    public Cafe(String name, String address, Integer places, Person owner) {
+    public Cafe(String name, String address, Person owner) {
         this.name = name;
         this.address = address;
-        this.places = places;
         this.owner = owner;
     }
 
@@ -74,14 +75,6 @@ public class Cafe {
         this.address = address;
     }
 
-    public Integer getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(Integer places) {
-        this.places = places;
-    }
-
     public Person getOwner() {
         return owner;
     }
@@ -98,14 +91,22 @@ public class Cafe {
         this.employees = employees;
     }
 
-//    public List<Dish> getDishes() {
-//        return dishes;
-//    }
-//
-//    public void setDishes(List<Dish> dishes) {
-//        this.dishes = dishes;
-//    }
-//
+    public List<Shift> getShifts() {
+        return shifts;
+    }
+
+    public void setShifts(List<Shift> shift) {
+        this.shifts = shift;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
+    }
+
 //    public List<Order> getOrders() {
 //        return orders;
 //    }
@@ -128,11 +129,11 @@ public class Cafe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cafe cafe = (Cafe) o;
-        return Objects.equals(name, cafe.name) && Objects.equals(address, cafe.address) && Objects.equals(places, cafe.places);
+        return Objects.equals(name, cafe.name) && Objects.equals(address, cafe.address) && Objects.equals(owner, cafe.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, places);
+        return Objects.hash(name, address, owner);
     }
 }

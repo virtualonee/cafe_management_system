@@ -11,6 +11,8 @@ import ru.virtu.cafe_management_system.models.Cafe;
 import ru.virtu.cafe_management_system.security.PersonDetails;
 import ru.virtu.cafe_management_system.services.CafesService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import ru.virtu.cafe_management_system.util.CafeValidator;
 
@@ -38,7 +40,7 @@ public class CafesController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, Model model) {
+    public String show(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
 
         Cafe cafe = cafesService.findOne(id);
 
@@ -47,6 +49,11 @@ public class CafesController {
 
         if (cafe.getOwner().equals(personDetails.getPerson())){
             model.addAttribute("cafe", cafe);
+
+            Cookie cookieCafeId = new Cookie("cafeId", String.valueOf(id));
+            cookieCafeId.setMaxAge(7*24*60*60); // expires in 7 days
+            response.addCookie(cookieCafeId);
+
             return "cafes/show";
         }
         else {

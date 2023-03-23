@@ -6,7 +6,7 @@
     <title>Show cafe</title>
 </head>
 <body>
-<p th:text="${cafe.getName() + ', ' + cafe.getAddress() + ', ' + cafe.getPlaces()}">VALUE</p>
+<p th:text="${cafe.getName() + ', ' + cafe.getAddress()}">VALUE</p>
 <br>
 
 
@@ -42,7 +42,9 @@
 
 <hr>
 
-<a th:href="@{/employees(cafeId=${cafe.getId()})}";>Manage employees</a>
+<a th:href="@{/employees}";>Manage employees</a><br>
+<a th:href="@{/shifts}";>Manage shifts</a><br>
+<a th:href="@{/dishes}";>Manage dishes</a><br>
 
 </body>
 </html>

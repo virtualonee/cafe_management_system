@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>New cafe</title>
+    <title>New person</title>
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/cafes}" th:object="${cafe}">
+<form th:method="POST" th:action="@{/dishes}" th:object="${dish}">
 
     <label for="name">Input name: </label>
     <input type="text" th:field="*{name}" id="name"/>
     <br/>
 
-    <label for="address">Input address: </label>
-    <input type="text" th:field="*{address}" id="address"/>
+    <label for="price">Input price: </label>
+    <input type="text" th:field="*{price}" id="price"/>
     <br/>
 
     <input type="submit" value="Create!"/>

@@ -17,10 +17,16 @@
     <br/>
 
     <label for="jobTitle">Input job: </label>
-    <input type="text" th:field="*{jobTitle}" id="jobTitle"/>
+    <input id="jobTitle" type="text" list="<list>" th:field="*{jobTitle}"/>
+    <datalist id="<list>">
+        <option value="Cook"></option>
+        <option value="Waiter"></option>
+        <option value="Chef"></option>
+        <option value="Sous chef"></option>
+    </datalist>
     <br/>
 
-    <input type="submit" value="Редактировать!"/>
+    <input type="submit" value="Edit!"/>
 </form>
 
 </body>

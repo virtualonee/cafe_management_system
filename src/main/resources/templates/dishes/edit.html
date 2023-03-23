@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать сотрудника</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/dishes/{id}(id=${dish.getId()})}" th:object="${dish}">
+
+    <label for="name">Input name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+
+    <label for="price">Input price: </label>
+    <input type="text" th:field="*{price}" id="price"/>
+    <br/>
+
+    <input type="submit" value="Edit!"/>
+</form>
+
+</body>
+</html>

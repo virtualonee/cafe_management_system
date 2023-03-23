@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit cafe</title>
+    <title>Редактировать сотрудника</title>
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/cafes/{id}(id=${cafe.getId()})}" th:object="${cafe}">
+<form th:method="PATCH" th:action="@{/shifts/{id}(id=${shift.getId()})}" th:object="${shift}">
 
     <label for="name">Input name: </label>
     <input type="text" th:field="*{name}" id="name"/>
     <br/>
 
-    <label for="address">Input address: </label>
-    <input type="text" th:field="*{address}" id="address"/>
+    <label for="price">Input price: </label>
+    <input type="text" th:field="*{price}" id="price"/>
     <br/>
 
     <input type="submit" value="Редактировать!"/>

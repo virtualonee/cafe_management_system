@@ -1,11 +1,9 @@
 package ru.virtu.cafe_management_system.controllers;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +12,8 @@ import ru.virtu.cafe_management_system.models.Employee;
 import ru.virtu.cafe_management_system.models.Shift;
 import ru.virtu.cafe_management_system.security.PersonDetails;
 import ru.virtu.cafe_management_system.services.CafesService;
-import ru.virtu.cafe_management_system.services.EmployeesService;
-import ru.virtu.cafe_management_system.services.PersonDetailsService;
 import ru.virtu.cafe_management_system.services.ShiftsService;
+import ru.virtu.cafe_management_system.services.PersonDetailsService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -25,32 +22,36 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/employees")
-public class EmployeesController {
+@RequestMapping("/shifts")
+public class ShiftsController {
 
-    private final EmployeesService employeesService;
-    private final CafesService cafesService;
     private final ShiftsService shiftsService;
+    private final CafesService cafesService;
+    private final PersonDetailsService personDetailsService;
 
     @Autowired
-    public EmployeesController(EmployeesService employeesService, CafesService cafesService, ShiftsService shiftsService) {
-        this.employeesService = employeesService;
-        this.cafesService = cafesService;
+    public ShiftsController(ShiftsService shiftsService, CafesService cafesService, PersonDetailsService personDetailsService) {
         this.shiftsService = shiftsService;
+        this.cafesService = cafesService;
+        this.personDetailsService = personDetailsService;
     }
 
     @GetMapping()
     public String index(Model model, @CookieValue(value = "cafeId") String cafeIdCookie) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
         Long cafeId = Long.valueOf(cafeIdCookie);
 
+        System.out.println(shiftsService.findByCafeId(cafeId));
+
         if (cafesService.findOne(cafeId).getOwner().equals(personDetails.getPerson())){
-            model.addAttribute("employees", employeesService.findByCafeId(cafeId));
+
+            model.addAttribute("shifts", shiftsService.findByCafeId(cafeId));
             model.addAttribute("cafeId", cafeId);
 
-            return "employees/index";
+            return "shifts/index";
         }
         else {
             return "error/no_access";
@@ -61,15 +62,12 @@ public class EmployeesController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
-        Employee employee = employeesService.findOne(id);
 
-        if (isUserHaveRights(employee)){
-            List<Shift> shifts = shiftsService.findByCafeId(employee.getCafe().getId());
+        Shift shift = shiftsService.findOne(id);
 
-            model.addAttribute("employee", employee);
-            model.addAttribute("shifts", shifts);
-
-            return "employees/show";
+        if (isUserHaveRights(shift)){
+            model.addAttribute("shift", shift);
+            return "shifts/show";
         }
         else {
             return "error/no_access";
@@ -77,12 +75,13 @@ public class EmployeesController {
     }
 
     @GetMapping("/new")
-    public String newEmployee(@ModelAttribute("employee") Employee employee) {
-        return "employees/new";
+    public String newEmployee(@ModelAttribute("shift") Shift shift) {
+        return "shifts/new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("employees") @Valid Employee employee, @CookieValue(value = "cafeId") String cafeId) {
+    public String create(@ModelAttribute("shifts") @Valid Shift shift, @CookieValue(value = "cafeId") String cafeId) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
@@ -91,10 +90,10 @@ public class EmployeesController {
         List<Cafe> cafeList = cafesService.findByPersonId(personDetails.getPerson().getId());
 
         if (cafeList.contains(cafe)){
-            employee.setCafe(cafe);
-            employeesService.save(employee);
+            shift.setCafe(cafe);
+            shiftsService.save(shift);
 
-            return "redirect:/employees";
+            return "redirect:/shifts";
         }
 
         return "error/no_access";
@@ -102,11 +101,12 @@ public class EmployeesController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
-        Employee employee = employeesService.findOne(id);
 
-        if (isUserHaveRights(employee)){
-            model.addAttribute("employee", employee);
-            return "employees/edit";
+        Shift shift = shiftsService.findOne(id);
+
+        if (isUserHaveRights(shift)){
+            model.addAttribute("shift", shift);
+            return "shifts/edit";
         }
         else {
             return "error/no_access";
@@ -114,40 +114,37 @@ public class EmployeesController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("employee") @Valid Employee employee, BindingResult bindingResult,
+    public String update(@ModelAttribute("shift") @Valid Shift shift, BindingResult bindingResult,
                          @PathVariable("id") Long id, @CookieValue(value = "cafeId") String cafeId) {
         if (bindingResult.hasErrors())
-            return "employees/edit";
+            return "shifts/edit";
 
-        employee.setCafe(cafesService.findOne(Long.valueOf(cafeId)));
+        shift.setCafe(cafesService.findOne(Long.valueOf(cafeId)));
 
-        if (isUserHaveRights(employee)){
-            employeesService.update(id, employee);
-            return "redirect:/employees";
-        }
-        else {
-            return "error/no_access";
-        }
+        shiftsService.update(id, shift);
+        return "redirect:/shifts";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
-        Employee employee = employeesService.findOne(id);
 
-        if (isUserHaveRights(employee)){
-            employeesService.delete(id);
-            return "redirect:/employees";
+        Shift shift = shiftsService.findOne(id);
+
+        if (isUserHaveRights(shift)){
+            shiftsService.delete(id);
+            return "redirect:/shifts";
         }
         else {
             return "error/no_access";
         }
     }
 
-    public static Boolean isUserHaveRights(Employee employee){
+    public static Boolean isUserHaveRights(Shift shift){
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
-        if (employee.getCafe().getOwner().equals(personDetails.getPerson())){
+        if (shift.getCafe().getOwner().equals(personDetails.getPerson())){
             return true;
         }
         else {

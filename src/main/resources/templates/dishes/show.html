@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Show dish</title>
+</head>
+<body>
+<p th:text="${dish.getName() + ', ' + dish.getPrice()}">VALUE</p>
+
+<form th:method="GET" th:action="@{/dishes/{id}/edit(id=${dish.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/dishes/{id}(id=${dish.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+
+</body>
+</html>

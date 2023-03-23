@@ -15,7 +15,8 @@
 <hr/>
 
 <a href="/employees/new">Add employee</a>
-<a href="/cafes">To cafe</a>
+<a th:href="@{/cafes/{id}(id=${cafeId})}">To cafe</a>
+
 
 </body>
 </html>

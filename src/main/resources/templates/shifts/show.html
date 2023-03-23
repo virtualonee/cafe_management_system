@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Show shift</title>
+</head>
+<body>
+<p th:text="${shift.getName() + ', ' + shift.getPrice()}">VALUE</p>
+
+<form th:method="GET" th:action="@{/shifts/{id}/edit(id=${shift.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/shifts/{id}(id=${shift.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+
+</body>
+</html>
