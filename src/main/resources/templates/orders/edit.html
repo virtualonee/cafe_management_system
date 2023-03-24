@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать сотрудника</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/orders/{id}(id=${order.getId()})}" th:object="${order}">
+
+    <p th:text="${'Order id:' + order.getId()}">VALUE</p>
+
+    <label for="comment">Input comment: </label>
+    <input type="text" th:field="*{comment}" id="comment"/>
+    <br/>
+
+    <input type="submit" value="Редактировать!"/>
+</form>
+
+</body>
+</html>

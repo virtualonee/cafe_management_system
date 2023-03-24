@@ -7,14 +7,10 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/shifts}" th:object="${shift}">
+<form th:method="POST" th:action="@{/orders}" th:object="${order}">
 
-    <label for="name">Input name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <br/>
-
-    <label for="price">Input price: </label>
-    <input type="text" th:field="*{price}" id="price"/>
+    <label for="comment">Input comment: </label>
+    <input type="text" th:field="*{comment}" id="comment"/>
     <br/>
 
     <input type="submit" value="Create!"/>

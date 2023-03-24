@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Show order</title>
+</head>
+<body>
+<p th:text="${order.getId() + ', ' + order.getMadeAt() + ', ' + order.getComment()}">VALUE</p>
+
+<div th:if="${orderedDishes}">
+    <div th:each="dish : ${orderedDishes}">
+        <a th:text="${dish.getName() + ', ' + dish.getPrice()}">dish</a>
+
+        <form th:method="DELETE" th:action="@{/orders/deleteDish/{id}(id=${dish.getId()}, orderId=${order.getId()})}">
+            <input type="submit" value="Delete"/>
+        </form>
+    </div>
+</div>
+<br>
+
+<form th:method="PATCH" th:action="@{/orders/{id}/addDish(id = ${order.getId()})}">
+
+    <label for="addedDish">Choose dish: </label>
+    <select th:object="${addedDish}" th:field="*{id}" id="addedDish">
+        <option th:each="dish : ${allDishes}" th:value="${dish.getId()}" th:text="${dish.getName() + ', ' + dish.getPrice()}">
+        </option>
+    </select>
+    <br/>
+
+    <input type="submit" value="Create!"/>
+</form>
+
+<form th:method="GET" th:action="@{/orders/{id}/edit(id=${order.getId()})}">
+    <input type="submit" value="Edit"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/orders/{id}(id=${order.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
+</body>
+</html>

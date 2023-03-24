@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+<div th:each="order : ${orders}">
+    <a th:href="@{/orders/{id}(id=${order.getId()})}"
+       th:text="${order.getId() + ', ' + order.getMadeAt() + ', ' + order.getComment()}">order</a>
+</div>
+
+<br/>
+<hr/>
+
+<a href="/orders/new">Add order</a>
+<a th:href="@{/cafes/{id}(id=${cafeId})}">To cafe</a>
+
+</body>
+</html>

@@ -38,8 +38,8 @@ public class Cafe {
     @OneToMany(mappedBy = "cafe")
     private List<Dish> dishes;
 
-//    private List<Order> orders;
-//    private List<Reservation> tableOrders;
+    @OneToMany(mappedBy = "cafe")
+    private List<Order> orders;
 
     public Cafe(){
 
@@ -107,15 +107,15 @@ public class Cafe {
         this.dishes = dishes;
     }
 
-//    public List<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(List<Order> orders) {
-//        this.orders = orders;
-//    }
-//
-//    public List<Reservation> getTableOrders() {
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    //    public List<Reservation> getTableOrders() {
 //        return tableOrders;
 //    }
 //
@@ -129,11 +129,11 @@ public class Cafe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cafe cafe = (Cafe) o;
-        return Objects.equals(name, cafe.name) && Objects.equals(address, cafe.address) && Objects.equals(owner, cafe.owner);
+        return Objects.equals(name, cafe.name) && Objects.equals(address, cafe.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, owner);
+        return Objects.hash(name, address);
     }
 }

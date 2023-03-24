@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/cafes", "/cafes/{id}/edit", "/cafes/{id}",
                         "/employees", "/employees/{id}/edit", "/employees/{id}",
                         "/shifts", "/shifts/{id}/edit", "/shifts/{id}",
-                        "/dishes", "/dishes/{id}/edit", "/dishes/{id}"
+                        "/dishes", "/dishes/{id}/edit", "/dishes/{id}",
+                        "/orders", "/orders/{id}/edit", "/orders/{id}", "/orders/{id}/addDish", "/orders/deleteDish/{id}"
                         ).permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
