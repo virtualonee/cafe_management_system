@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>New person</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/bookings}" th:object="${booking}">
+
+    <label for="tableNumber">Input table number: </label>
+    <input type="text" th:field="*{tableNumber}" id="tableNumber"/>
+    <br/>
+
+    <label for="peopleAmount">Input peopleAmount: </label>
+    <input type="text" th:field="*{peopleAmount}" id="peopleAmount"/>
+    <br/>
+
+    <label for="comment">Input comment: </label>
+    <input type="text" th:field="*{comment}" id="comment"/>
+    <br/>
+
+    <label for="scheduledFor">Input scheduled time: </label>
+    <input type="date" th:field="*{scheduledFor}" id="scheduledFor"/>
+    <br/>
+
+    <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>

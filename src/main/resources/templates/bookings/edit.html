@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать сотрудника</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/bookings/{id}(id=${booking.getId()})}" th:object="${booking}">
+
+    <label for="tableNumber">Input table number: </label>
+    <input type="text" th:field="*{tableNumber}" id="tableNumber"/>
+    <br/>
+
+    <label for="peopleAmount">Input peopleAmount: </label>
+    <input type="text" th:field="*{peopleAmount}" id="peopleAmount"/>
+    <br/>
+
+    <label for="comment">Input comment: </label>
+    <input type="text" th:field="*{comment}" id="comment"/>
+    <br/>
+
+    <label for="scheduledFor">Input scheduled time: </label>
+    <input type="date" th:field="*{scheduledFor}" id="scheduledFor"/>
+    <br/>
+
+    <input type="submit" value="Edit!"/>
+</form>
+
+</body>
+</html>

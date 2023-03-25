@@ -8,10 +8,8 @@
 
 <div th:each="cafe : ${cafes}">
     <a th:href="@{/cafes/{id}(id=${cafe.getId()})}"
-       th:text="${cafe.getName() + ', ' + cafe.getAddress()}">cafe</a>
+       th:text="${'Name: ' + cafe.getName() + ', Adress: ' + cafe.getAddress() + ', Tables: ' + cafe.getTableAmount()}">cafe</a>
 </div>
-
-<br/>
 <hr/>
 
 <a href="/cafes/new">Add cafe</a>

@@ -2,6 +2,7 @@ package ru.virtu.cafe_management_system.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,10 @@ public class Cafe {
     @Column(name = "address")
     private String address;
 
+    @NotNull
+    @Column(name = "table_amount")
+    private Integer tableAmount;
+
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
@@ -40,6 +45,12 @@ public class Cafe {
 
     @OneToMany(mappedBy = "cafe")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "cafe")
+    private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "cafe")
+    private List<CafeTable> tables;
 
     public Cafe(){
 
@@ -73,6 +84,14 @@ public class Cafe {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getTableAmount() {
+        return tableAmount;
+    }
+
+    public void setTableAmount(Integer tableAmount) {
+        this.tableAmount = tableAmount;
     }
 
     public Person getOwner() {
@@ -115,14 +134,21 @@ public class Cafe {
         this.orders = orders;
     }
 
-    //    public List<Reservation> getTableOrders() {
-//        return tableOrders;
-//    }
-//
-//    public void setTableOrders(List<Reservation> tableOrders) {
-//        this.tableOrders = tableOrders;
-//    }
+    public List<Booking> getBookings() {
+        return bookings;
+    }
 
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public List<CafeTable> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<CafeTable> tables) {
+        this.tables = tables;
+    }
 
     @Override
     public boolean equals(Object o) {

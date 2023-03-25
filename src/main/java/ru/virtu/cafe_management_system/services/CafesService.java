@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.virtu.cafe_management_system.dao.CafeDAO;
+import ru.virtu.cafe_management_system.dao.CafeTableDAO;
 import ru.virtu.cafe_management_system.models.Cafe;
 import ru.virtu.cafe_management_system.models.Employee;
 import ru.virtu.cafe_management_system.repositories.CafesRepository;
@@ -20,11 +21,13 @@ public class CafesService {
 
     private final CafesRepository cafesRepository;
     private final CafeDAO cafeDAO;
+    private final CafeTableDAO cafeTableDAO;
 
     @Autowired
-    public CafesService(CafesRepository cafesRepository, CafeDAO cafeDAO) {
+    public CafesService(CafesRepository cafesRepository, CafeDAO cafeDAO, CafeTableDAO cafeTableDAO) {
         this.cafesRepository = cafesRepository;
         this.cafeDAO = cafeDAO;
+        this.cafeTableDAO = cafeTableDAO;
     }
 
     public List<Cafe> findAll() {
@@ -43,12 +46,14 @@ public class CafesService {
     @Transactional
     public void save(Cafe cafe) {
         cafesRepository.save(cafe);
+        cafeTableDAO.createTables(cafe.getTableAmount(), cafe.getId());
     }
 
     @Transactional
     public void update(Long id, Cafe updatedCafe) {
         updatedCafe.setId(id);
         cafesRepository.save(updatedCafe);
+        cafeTableDAO.deleteAndCreateTables(updatedCafe.getTableAmount(), updatedCafe.getId());
     }
 
     @Transactional

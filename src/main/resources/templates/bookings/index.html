@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+<div th:each="booking : ${bookings}">
+    <a th:href="@{/bookings/{id}(id=${booking.getId()})}"
+       th:text="${booking.getId() + ', Table number:' + booking.getTableNumber() +
+        ', Comment: ' + booking.getComment()  + ', People amount: ' +
+       booking.getPeopleAmount() + ', Scheduled for: ' + booking.getScheduledFor() +
+        ', Made at: ' + booking.getMadeAt()}">booking</a>
+</div>
+<hr/>
+
+<a href="/bookings/new">Add booking</a>
+<a th:href="@{/cafes/{id}(id=${cafeId})}">To cafe</a>
+
+
+</body>
+</html>

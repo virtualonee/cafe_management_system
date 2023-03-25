@@ -27,13 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // configure authorization
         http.authorizeRequests()
-                //.antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/auth/login", "/auth/registration", "/error",
                         "/cafes", "/cafes/{id}/edit", "/cafes/{id}",
                         "/employees", "/employees/{id}/edit", "/employees/{id}",
                         "/shifts", "/shifts/{id}/edit", "/shifts/{id}",
                         "/dishes", "/dishes/{id}/edit", "/dishes/{id}",
-                        "/orders", "/orders/{id}/edit", "/orders/{id}", "/orders/{id}/addDish", "/orders/deleteDish/{id}"
+                        "/orders", "/orders/{id}/edit", "/orders/{id}", "/orders/{id}/addDish", "/orders/deleteDish/{id}",
+                        "/bookings", "/bookings/{id}/edit", "/bookings/{id}"
                         ).permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()

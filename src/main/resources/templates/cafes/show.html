@@ -9,29 +9,6 @@
 <p th:text="${cafe.getName() + ', ' + cafe.getAddress()}">VALUE</p>
 <br>
 
-
-<!--<div th:if="${books.isEmpty()}">-->
-<!--    <p>Человек пока не взял ни одной книги</p>-->
-<!--    <hr/>-->
-<!--</div>-->
-
-<!--<div th:if="${!books.isEmpty()}">-->
-<!--    <hr/>-->
-<!--    <b>Книги:</b>-->
-<!--    <br/>-->
-<!--    <table th:each="book : ${books}">-->
-<!--        <tr>-->
-<!--            <td>-->
-<!--                <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"-->
-<!--                   th:style="${book.isExpired()} ? 'color: red' : 'color: black'">-->
-<!--                    book-->
-<!--                </span>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--    <hr/>-->
-<!--</div>-->
-
 <form th:method="GET" th:action="@{/cafes/{id}/edit(id=${cafe.getId()})}">
     <input type="submit" value="Редактировать"/>
 </form>
@@ -46,6 +23,7 @@
 <a th:href="@{/shifts}";>Manage shifts</a><br>
 <a th:href="@{/dishes}";>Manage dishes</a><br>
 <a th:href="@{/orders}";>Manage orders</a><br>
+<a th:href="@{/bookings}";>Manage bookings</a><br>
 
 </body>
 </html>
