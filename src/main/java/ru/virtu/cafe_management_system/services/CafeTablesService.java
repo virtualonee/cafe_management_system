@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.virtu.cafe_management_system.dao.CafeTableDAO;
+import ru.virtu.cafe_management_system.models.Booking;
 import ru.virtu.cafe_management_system.models.CafeTable;
 import ru.virtu.cafe_management_system.repositories.CafeTableRepository;
 
@@ -51,5 +52,23 @@ public class CafeTablesService {
     @Transactional
     public void delete(Long id) {
         cafeTableRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void bookingTable(Integer id) {
+        CafeTable cafeTable = cafeTableRepository.getById(Long.valueOf(id));
+        cafeTable.setStatus(true); //TODO add my exception
+        cafeTableRepository.save(cafeTable);
+    }
+
+    @Transactional
+    public void unbookingTable(Integer id) {
+        CafeTable cafeTable = cafeTableRepository.getById(Long.valueOf(id));
+        cafeTable.setStatus(false); //TODO add my exception
+        cafeTableRepository.save(cafeTable);
+    }
+
+    public List<CafeTable> showFreeTablesByCafeId(Long cafeId) {
+        return cafeTableDAO.showFreeTablesByCafeId(cafeId);
     }
 }

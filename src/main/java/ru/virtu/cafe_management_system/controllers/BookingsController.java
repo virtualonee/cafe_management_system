@@ -9,11 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.virtu.cafe_management_system.models.Cafe;
 import ru.virtu.cafe_management_system.models.Booking;
-import ru.virtu.cafe_management_system.models.Shift;
 import ru.virtu.cafe_management_system.security.PersonDetails;
+import ru.virtu.cafe_management_system.services.CafeTablesService;
 import ru.virtu.cafe_management_system.services.CafesService;
 import ru.virtu.cafe_management_system.services.BookingsService;
-import ru.virtu.cafe_management_system.services.ShiftsService;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -26,11 +25,13 @@ public class BookingsController {
 
     private final BookingsService bookingsService;
     private final CafesService cafesService;
+    private final CafeTablesService cafeTablesService;
 
     @Autowired
-    public BookingsController(BookingsService bookingsService, CafesService cafesService) {
+    public BookingsController(BookingsService bookingsService, CafesService cafesService, CafeTablesService cafeTablesService) {
         this.bookingsService = bookingsService;
         this.cafesService = cafesService;
+        this.cafeTablesService = cafeTablesService;
     }
 
     @GetMapping()
@@ -68,7 +69,9 @@ public class BookingsController {
     }
 
     @GetMapping("/new")
-    public String newEmployee(@ModelAttribute("booking") Booking booking) {
+    public String newEmployee(@ModelAttribute("booking") Booking booking, Model model, @CookieValue(value = "cafeId") String cafeId) {
+        model.addAttribute("freeTables", cafeTablesService.showFreeTablesByCafeId(Long.valueOf(cafeId)));
+
         return "bookings/new";
     }
 
@@ -82,6 +85,7 @@ public class BookingsController {
         List<Cafe> cafeList = cafesService.findByPersonId(personDetails.getPerson().getId());
 
         if (cafeList.contains(cafe)){
+            cafeTablesService.bookingTable(booking.getTableNumber());
             booking.setCafe(cafe);
             booking.setMadeAt(new Date());
             bookingsService.save(booking);
@@ -93,11 +97,12 @@ public class BookingsController {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+    public String edit(Model model, @PathVariable("id") Long id, @CookieValue(value = "cafeId") String cafeId) {
         Booking booking = bookingsService.findOne(id);
 
         if (isUserHaveRights(booking)){
             model.addAttribute("booking", booking);
+            model.addAttribute("freeTables", cafeTablesService.findByCafeId(Long.valueOf(cafeId)));
             return "bookings/edit";
         }
         else {
@@ -107,13 +112,15 @@ public class BookingsController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("booking") @Valid Booking booking, BindingResult bindingResult,
-                         @PathVariable("id") Long id, @CookieValue(value = "cafeId") String cafeId) {
+                         @PathVariable("id") Long id, @CookieValue(value = "cafeId") String cafeId, @RequestParam Integer oldTableNumber) {
         if (bindingResult.hasErrors())
             return "bookings/edit";
 
         booking.setCafe(cafesService.findOne(Long.valueOf(cafeId)));
 
         if (isUserHaveRights(booking)){
+            cafeTablesService.unbookingTable(oldTableNumber);
+            cafeTablesService.bookingTable(booking.getTableNumber());
             bookingsService.update(id, booking);
             return "redirect:/bookings";
         }

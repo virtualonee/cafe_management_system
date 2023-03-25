@@ -58,4 +58,8 @@ public class CafeTableDAO {
             }
         });
     }
+
+    public List<CafeTable> showFreeTablesByCafeId(Long cafeId) {
+        return jdbcTemplate.query("SELECT * FROM cafe_table WHERE cafe_id=? AND status=false", new Object[]{cafeId}, new BeanPropertyRowMapper<>(CafeTable.class));
+    }
 }

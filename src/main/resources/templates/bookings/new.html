@@ -9,9 +9,11 @@
 
 <form th:method="POST" th:action="@{/bookings}" th:object="${booking}">
 
-    <label for="tableNumber">Input table number: </label>
-    <input type="text" th:field="*{tableNumber}" id="tableNumber"/>
-    <br/>
+    <label for="booking">Choose table: </label>
+    <select th:object="${booking}" th:field="*{tableNumber}" id="booking">
+        <option th:each="table : ${freeTables}" th:value="${table.getId()}" th:text="${table.getId()}">
+        </option>
+    </select>
 
     <label for="peopleAmount">Input peopleAmount: </label>
     <input type="text" th:field="*{peopleAmount}" id="peopleAmount"/>
