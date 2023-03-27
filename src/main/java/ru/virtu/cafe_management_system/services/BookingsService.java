@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.virtu.cafe_management_system.dao.BookingDAO;
 import ru.virtu.cafe_management_system.models.Booking;
 import ru.virtu.cafe_management_system.repositories.BookingRepository;
+import ru.virtu.cafe_management_system.repositories.CafeTableRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +18,14 @@ public class BookingsService {
 
     private final BookingRepository bookingRepository;
     private final BookingDAO bookingDAO;
+    private final CafeTablesService cafeTablesService;
 
     @Autowired
-    public BookingsService(BookingRepository bookingRepository, BookingDAO bookingDAO) {
+    public BookingsService(BookingRepository bookingRepository, BookingDAO bookingDAO, CafeTablesService cafeTablesService) {
         this.bookingRepository = bookingRepository;
         this.bookingDAO = bookingDAO;
+        this.cafeTablesService = cafeTablesService;
+
     }
 
     public List<Booking> findAll() {
@@ -50,6 +54,9 @@ public class BookingsService {
 
     @Transactional
     public void delete(Long id) {
+        Booking booking = bookingRepository.getById(id);
+        cafeTablesService.unbookingTable(booking.getTableNumber());
+
         bookingRepository.deleteById(id);
     }
 }

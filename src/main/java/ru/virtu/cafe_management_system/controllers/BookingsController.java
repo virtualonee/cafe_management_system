@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.virtu.cafe_management_system.models.Cafe;
 import ru.virtu.cafe_management_system.models.Booking;
+import ru.virtu.cafe_management_system.models.CafeTable;
 import ru.virtu.cafe_management_system.security.PersonDetails;
 import ru.virtu.cafe_management_system.services.CafeTablesService;
 import ru.virtu.cafe_management_system.services.CafesService;
@@ -70,9 +71,17 @@ public class BookingsController {
 
     @GetMapping("/new")
     public String newEmployee(@ModelAttribute("booking") Booking booking, Model model, @CookieValue(value = "cafeId") String cafeId) {
-        model.addAttribute("freeTables", cafeTablesService.showFreeTablesByCafeId(Long.valueOf(cafeId)));
 
-        return "bookings/new";
+        List<CafeTable> freeTables = cafeTablesService.showFreeTablesByCafeId(Long.valueOf(cafeId));
+
+        if (freeTables != null){
+            model.addAttribute("freeTables", freeTables);
+            return "bookings/new";
+        }
+        else {
+            return "error/no_free_tables";
+        }
+
     }
 
     @PostMapping()
