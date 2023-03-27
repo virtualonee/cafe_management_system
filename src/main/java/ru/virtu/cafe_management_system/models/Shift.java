@@ -2,6 +2,7 @@ package ru.virtu.cafe_management_system.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +19,9 @@ public class Shift {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @OneToMany(mappedBy = "shift")
+    private List<Employee> employees;
 
     @ManyToOne
     @JoinColumn(name = "cafe_id", referencedColumnName = "id")
@@ -53,6 +57,14 @@ public class Shift {
 
     public void setCafe(Cafe cafe) {
         this.cafe = cafe;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     @Override

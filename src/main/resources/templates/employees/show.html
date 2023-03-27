@@ -7,12 +7,21 @@
 </head>
 <body>
 <p th:text="${employee.getFio() + ', ' + employee.getJobTitle() + ', ' + employee.getPhone()}">VALUE</p>
+
+<form th:method="GET" th:action="@{/employees/{id}/edit(id=${employee.getId()})}">
+    <input type="submit" value="Edit"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/employees/{id}(id=${employee.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
 <hr>
 
 <div th:if="${shifts}">
-    <form th:method="PATCH" th:action="@{/employees/{id}/assign(id=${employee.getId()})}">
-        <label for="employee">Choose shift</label>
-        <select th:object="${employee}" th:field="*{id}" id="employee">
+    <form th:method="PATCH" th:action="@{/employees/{id}/assign(id=${employee.getId()})}" >
+        <label for="shift">Choose shift</label>
+        <select th:object="${shift}" th:field="*{id}" id="shift">
             <option th:each="shift : ${shifts}" th:value="${shift.getId()}" th:text="${shift.getName()}">
             </option>
         </select>
@@ -22,13 +31,8 @@
 
 <br>
 
-<form th:method="GET" th:action="@{/employees/{id}/edit(id=${employee.getId()})}">
-    <input type="submit" value="Edit"/>
-</form>
-
-<form th:method="DELETE" th:action="@{/employees/{id}(id=${employee.getId()})}">
-    <input type="submit" value="Delete"/>
-</form>
+<hr>
+<a th:href="@{/employees}">To employees</a>
 
 </body>
 </html>

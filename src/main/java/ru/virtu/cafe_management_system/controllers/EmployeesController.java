@@ -40,14 +40,15 @@ public class EmployeesController {
     }
 
     @GetMapping()
-    public String index(Model model, @CookieValue(value = "cafeId") String cafeIdCookie) {
+    public String index(Model model, @CookieValue(value = "cafeId") String cafeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
-        Long cafeId = Long.valueOf(cafeIdCookie);
+        Long cafeIdLong = Long.valueOf(cafeId);
 
-        if (cafesService.findOne(cafeId).getOwner().equals(personDetails.getPerson())){
-            model.addAttribute("employees", employeesService.findByCafeId(cafeId));
+        if (cafesService.findOne(cafeIdLong).getOwner().equals(personDetails.getPerson())){
+            List<Employee> employees = employeesService.findByCafeId(cafeIdLong);
+            model.addAttribute("employees", employeesService.findByCafeId(cafeIdLong));
             model.addAttribute("cafeId", cafeId);
 
             return "employees/index";
@@ -68,6 +69,7 @@ public class EmployeesController {
 
             model.addAttribute("employee", employee);
             model.addAttribute("shifts", shifts);
+            model.addAttribute("shift", new Shift());
 
             return "employees/show";
         }
@@ -136,6 +138,19 @@ public class EmployeesController {
 
         if (isUserHaveRights(employee)){
             employeesService.delete(id);
+            return "redirect:/employees";
+        }
+        else {
+            return "error/no_access";
+        }
+    }
+
+    @PatchMapping("/{id}/assign")
+    public String assign(@PathVariable("id") Long id, @ModelAttribute("shift") Shift shift){
+        Employee employee = employeesService.findOne(id);
+
+        if (isUserHaveRights(employee)){
+            employeesService.assignShift(employee, shift.getId());
             return "redirect:/employees";
         }
         else {

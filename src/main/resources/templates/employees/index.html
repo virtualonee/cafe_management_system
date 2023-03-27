@@ -9,6 +9,10 @@
 <div th:each="employee : ${employees}">
     <a th:href="@{/employees/{id}(id=${employee.getId()})}"
        th:text="${employee.getFio() + ', ' + employee.getJobTitle()+ ', ' + employee.getPhone()}">employee</a>
+
+    <span th:if="${employee.getShift()}">
+    <p th:text="'Shift: ' + ${employee.getShift().getName()}">employee</p>
+    </span>
 </div>
 
 <hr/>

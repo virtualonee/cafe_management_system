@@ -11,7 +11,7 @@
 
     <label for="booking">Choose table: </label>
     <select th:object="${booking}" th:field="*{tableNumber}" id="booking">
-        <option th:each="table : ${freeTables}" th:value="${table.getId()}" th:text="${table.getId()}">
+        <option th:each="table : ${freeTables}" th:value="${table.getId()}" th:text="${table.tableNumber}">
         </option>
     </select>
 
@@ -29,6 +29,10 @@
 
     <input type="submit" value="Create!"/>
 </form>
+
+<hr>
+
+<a th:href="@{/bookings}">To bookings</a>
 
 </body>
 </html>

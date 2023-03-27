@@ -7,14 +7,13 @@
 </head>
 <body>
 <p th:text="${cafe.getName() + ', ' + cafe.getAddress()}">VALUE</p>
-<br>
 
 <form th:method="GET" th:action="@{/cafes/{id}/edit(id=${cafe.getId()})}">
-    <input type="submit" value="Редактировать"/>
+    <input type="submit" value="Edit"/>
 </form>
 
 <form th:method="DELETE" th:action="@{/cafes/{id}(id=${cafe.getId()})}">
-    <input type="submit" value="Удалить"/>
+    <input type="submit" value="Delete"/>
 </form>
 
 <hr>
@@ -24,6 +23,8 @@
 <a th:href="@{/dishes}";>Manage dishes</a><br>
 <a th:href="@{/orders}";>Manage orders</a><br>
 <a th:href="@{/bookings}";>Manage bookings</a><br>
+<hr>
+<a th:href="@{/cafes}";>To cafes</a><br>
 
 </body>
 </html>

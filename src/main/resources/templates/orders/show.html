@@ -8,6 +8,16 @@
 <body>
 <p th:text="${order.getId() + ', ' + order.getMadeAt() + ', ' + order.getComment()}">VALUE</p>
 
+<form th:method="GET" th:action="@{/orders/{id}/edit(id=${order.getId()})}">
+    <input type="submit" value="Edit"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/orders/{id}(id=${order.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
+<hr>
+<p>Список блюд: </p>
 <div th:if="${orderedDishes}">
     <div th:each="dish : ${orderedDishes}">
         <a th:text="${dish.getName() + ', ' + dish.getPrice()}">dish</a>
@@ -18,6 +28,8 @@
     </div>
 </div>
 <br>
+
+<hr>
 
 <form th:method="PATCH" th:action="@{/orders/{id}/addDish(id = ${order.getId()})}">
 
@@ -31,13 +43,8 @@
     <input type="submit" value="Create!"/>
 </form>
 
-<form th:method="GET" th:action="@{/orders/{id}/edit(id=${order.getId()})}">
-    <input type="submit" value="Edit"/>
-</form>
-
-<form th:method="DELETE" th:action="@{/orders/{id}(id=${order.getId()})}">
-    <input type="submit" value="Delete"/>
-</form>
+<hr>
+<a th:href="@{/orders}">To orders</a>
 
 </body>
 </html>

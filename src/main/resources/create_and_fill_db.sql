@@ -80,7 +80,7 @@ CREATE TABLE Cafe_Table (
 );
 
 -- password in bcrypt = 'test"
-INSERT INTO Person(id, username, password, role) VALUES (0, 'test', '$2a$10$WsoMjjalhwdWEHBW.AJUNOrHYBvWo9.mDt27A4epA6Pwws2IuIilu', 'USER');
+INSERT INTO Person(id, username, password, role) VALUES (0, 'test', '$2a$10$WsoMjjalhwdWEHBW.AJUNOrHYBvWo9.mDt27A4epA6Pwws2IuIilu', 'ROLE_USER');
 INSERT INTO Person(id, username, password) VALUES (-1, 'fakeUser', '$2a$10$WsoMjjalhwdWEHBW.AJUNOrHYBvWo9.mDt27A4epA6Pwws2IuIilu');
 
 INSERT INTO Cafe(id, name, address, table_amount, person_id) VALUES (0, 'Test cafe 1', '1215 Morgan Street', 10, 0);
@@ -90,9 +90,9 @@ INSERT INTO Employee(fio, phone, job_title, cafe_id) VALUES ('testFio1', 'testPh
 INSERT INTO Employee(fio, phone, job_title, cafe_id) VALUES ('testFio2', 'testPhone2', 'Waiter', 0);
 INSERT INTO Employee(fio, phone, job_title, cafe_id) VALUES ('testFio3', 'testPhone3', 'Waiter', 0);
 
-INSERT INTO Shift(id, name, price, cafe_id) VALUES (0, 'From 6.00 to 18.00', 1200, 0);
-INSERT INTO Shift(id, name, price, cafe_id) VALUES (1, 'From 8.00 to 20.00', 800, 0);
-INSERT INTO Shift(id, name, price, cafe_id) VALUES (2, 'From 10.00 to 22.00', 1000, 0);
+INSERT INTO Shift(name, price, cafe_id) VALUES ('From 6.00 to 18.00', 1200, 0);
+INSERT INTO Shift(name, price, cafe_id) VALUES ('From 8.00 to 20.00', 800, 0);
+INSERT INTO Shift(name, price, cafe_id) VALUES ('From 10.00 to 22.00', 1000, 0);
 
 INSERT INTO Cafe_Table(table_number, status, cafe_id) VALUES (1, false, 0);
 INSERT INTO Cafe_Table(table_number, status, cafe_id) VALUES (2, false, 0);

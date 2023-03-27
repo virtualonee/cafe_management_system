@@ -4,6 +4,7 @@ package ru.virtu.cafe_management_system.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +27,10 @@ public class Employee {
 
     @Column(name = "job_title")
     private String jobTitle;
+
+    @ManyToOne
+    @JoinColumn(name = "shift_id", referencedColumnName = "id")
+    private Shift shift;
 
     @ManyToOne
     @JoinColumn(name = "cafe_id", referencedColumnName = "id")
@@ -69,6 +74,14 @@ public class Employee {
 
     public void setCafe(Cafe cafe) {
         this.cafe = cafe;
+    }
+
+    public Shift getShift() {
+        return shift;
+    }
+
+    public void setShift(Shift shift) {
+        this.shift = shift;
     }
 
     @Override

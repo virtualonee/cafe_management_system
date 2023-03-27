@@ -12,6 +12,7 @@ import ru.virtu.cafe_management_system.security.PersonDetails;
 import ru.virtu.cafe_management_system.services.CafesService;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import ru.virtu.cafe_management_system.util.CafeValidator;
@@ -51,7 +52,8 @@ public class CafesController {
             model.addAttribute("cafe", cafe);
 
             Cookie cookieCafeId = new Cookie("cafeId", String.valueOf(id));
-            cookieCafeId.setMaxAge(7*24*60*60); // expires in 7 days
+            cookieCafeId.setMaxAge(7*24*60*60);
+            cookieCafeId.setPath("/");
             response.addCookie(cookieCafeId);
 
             return "cafes/show";
